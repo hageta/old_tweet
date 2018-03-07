@@ -5,7 +5,7 @@ import yaml
 import argparse
 from requests_oauthlib import OAuth1Session
 
-import csv_operator
+import util
 import model
 
 ### main ###
@@ -109,6 +109,6 @@ if req.status_code == 200:
         tweetResult = model.Tweet(tweetRaw)
         tweetList.append(tweetResult.__dict__)
     if tweetList != []:
-        csv_operator.CsvOperator.export_csv(tweetList, os.path.join(ROOT_PATH,"csv"), params['q'])
+        util.CsvOperator.export_csv(tweetList, os.path.join(ROOT_PATH,"csv"), params['q'])
 else:
     print("ERROR: %d" % req.status_code)
