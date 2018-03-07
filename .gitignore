@@ -105,3 +105,4 @@ ENV/
 
 # others
 config/default.yml
+csv/*
