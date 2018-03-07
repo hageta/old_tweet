@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# IDE
+.idea/
+
+# others
+config/default.yml
