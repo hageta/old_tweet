@@ -3,6 +3,7 @@ import json
 import os
 import yaml
 import argparse
+from datetime import *
 from requests_oauthlib import OAuth1Session
 
 import util
@@ -43,13 +44,14 @@ def arg_parse():
                         '--until',
                         help='The upper bound date (yyyy-mm-aa)',
                         type=str, # default=str
+                        default=(datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d'),
                         required=False
                         )
     parser.add_argument('-q',
                         '--q',
                         help='A query text to be matched',
                         type=str, # default=str
-                        required=False
+                        required=True
                         )
     parser.add_argument('-m',
                         '--max_id',
@@ -86,20 +88,22 @@ def arg_parse():
                         )
     return parser.parse_args()
 
-query = input('>> ')
+args = arg_parse()
+
 params = {
-    'q' : query,
-    'geocode': '',
-    'lang': 'ja',
-    'locale': 'ja',
+    'q': args.q,
+    'geocode': args.geo,
+    'lang': args.lang,
+    'locale': args.locale,
     'result_type': 'mixed',
     'count' : '100',
-    'until': '2018-03-02',
-    'since_id': '',
-    'max_id': '',
+    'until': args.until,
+    'since_id': args.since_id,
+    'max_id': args.max_id,
     'include_entities': 'True'
 }
 
+print({**params, **vars(args)})
 req = twitterAPI.get(url, params = params)
 
 if req.status_code == 200:
